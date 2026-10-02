@@ -3,193 +3,314 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Shell</title>
+  <title>App Home Screen</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 font-sans antialiased text-gray-800">
+<body class="bg-gray-100 font-sans antialiased text-gray-800 flex justify-center min-h-screen sm:py-6">
 
-  <div class="flex h-screen overflow-hidden">
+  <!-- Mobile App Frame Container -->
+  <div class="w-full max-w-md bg-white sm:rounded-3xl shadow-2xl flex flex-col justify-between overflow-hidden relative h-screen sm:h-[840px]">
 
-    <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex">
-      <div>
-        <!-- App Logo / Header -->
-        <div class="h-16 flex items-center justify-between px-6 bg-slate-950">
-          <span class="text-xl font-bold text-white tracking-wide">Workspace</span>
-        </div>
+    <!-- MAIN SCROLLABLE CONTENT -->
+    <div id="main-content" class="flex-1 overflow-y-auto pb-20">
 
-        <!-- Navigation Links -->
-        <nav class="mt-6 px-4 space-y-1">
-          <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white bg-indigo-600 rounded-lg">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            Home / Overview
-          </a>
-          <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium hover:bg-slate-800 rounded-lg transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-            Analytics
-          </a>
-          <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium hover:bg-slate-800 rounded-lg transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2zm0 0l7 5 7-5"/></svg>
-            Projects
-          </a>
-          <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium hover:bg-slate-800 rounded-lg transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            Team Members
-          </a>
-        </nav>
-      </div>
-
-      <!-- Bottom Settings -->
-      <div class="p-4 border-t border-slate-800">
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium hover:bg-slate-800 rounded-lg transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          Settings
-        </a>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT AREA -->
-    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-
-      <!-- TOP NAVBAR -->
-      <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
-        <!-- Global Search -->
-        <div class="relative w-72">
-          <input type="text" placeholder="Search or press Cmd + K..." class="w-full pl-10 pr-4 py-2 bg-gray-100 border border-transparent rounded-lg text-sm focus:outline-none focus:bg-white focus:border-indigo-500">
-          <svg class="w-4 h-4 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        </div>
-
-        <!-- User Controls -->
-        <div class="flex items-center gap-4">
-          <button class="p-2 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-          </button>
-          <div class="flex items-center gap-3 border-l pl-4 border-gray-200">
-            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm">
-              JD
-            </div>
-            <span class="text-sm font-medium text-gray-700">Jane Doe</span>
+      <!-- APP HEADER -->
+      <header class="p-5 flex items-center justify-between bg-white sticky top-0 z-10 border-b border-gray-100">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-md">
+            JD
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 font-medium">Welcome back 👋</p>
+            <h2 class="text-base font-bold text-gray-900">Jane Doe</h2>
           </div>
         </div>
+        <button onclick="alert('No new notifications')" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors relative">
+          <i class="fa-solid fa-bell"></i>
+          <span class="w-2 h-2 bg-red-500 rounded-full absolute top-2.5 right-2.5"></span>
+        </button>
       </header>
 
-      <!-- DASHBOARD BODY CONTAINER -->
-      <main class="flex-1 overflow-y-auto p-6 space-y-6">
+      <!-- TAB 1: HOME SCREEN -->
+      <section id="tab-home" class="p-5 space-y-6">
 
-        <!-- Page Header -->
-        <div class="flex items-center justify-between">
-          <div>
-            <h1 class="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
-            <p class="text-sm text-gray-500">Welcome back! Here is what's happening today.</p>
+        <!-- ACCOUNT BALANCE CARD -->
+        <div class="bg-gradient-to-tr from-indigo-700 via-indigo-600 to-violet-600 text-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
+          <div class="flex justify-between items-center opacity-80 text-xs font-medium">
+            <span>Total Available Balance</span>
+            <button onclick="toggleBalance()" class="hover:opacity-100"><i id="eye-icon" class="fa-solid fa-eye"></i></button>
           </div>
-          <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm transition-colors">
-            + New Project
+          <div class="mt-2 flex items-baseline gap-1">
+            <span class="text-xl">$</span>
+            <span id="balance-amount" class="text-3xl font-extrabold tracking-tight">14,250.80</span>
+          </div>
+          <div class="mt-6 flex justify-between items-center text-xs opacity-90 border-t border-white/20 pt-4">
+            <span>Account: **** 8829</span>
+            <span class="bg-white/20 px-2.5 py-1 rounded-full text-[10px] font-semibold">Active</span>
+          </div>
+        </div>
+
+        <!-- QUICK ACTION BUTTONS -->
+        <div class="grid grid-cols-4 gap-3 text-center">
+          <button onclick="openModal('send-modal')" class="flex flex-col items-center gap-2 group">
+            <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
+              <i class="fa-solid fa-paper-plane"></i>
+            </div>
+            <span class="text-xs font-medium text-gray-700">Send</span>
+          </button>
+
+          <button onclick="openModal('receive-modal')" class="flex flex-col items-center gap-2 group">
+            <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
+              <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <span class="text-xs font-medium text-gray-700">Receive</span>
+          </button>
+
+          <button onclick="alert('Top up module selected')" class="flex flex-col items-center gap-2 group">
+            <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+            <span class="text-xs font-medium text-gray-700">Top Up</span>
+          </button>
+
+          <button onclick="alert('Bills & Utilities module selected')" class="flex flex-col items-center gap-2 group">
+            <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+            <span class="text-xs font-medium text-gray-700">Bills</span>
           </button>
         </div>
 
-        <!-- KPI METRICS GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-            <p class="text-sm font-medium text-gray-500">Total Revenue</p>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-3xl font-extrabold text-gray-900">$45,231.89</span>
-              <span class="text-sm font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">+12.5%</span>
-            </div>
+        <!-- QUICK TRANSFER AVATARS CAROUSEL -->
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-sm font-bold text-gray-900">Quick Transfer</h3>
+            <a href="#" class="text-xs font-semibold text-indigo-600">See All</a>
           </div>
-          
-          <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-            <p class="text-sm font-medium text-gray-500">Active Users</p>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-3xl font-extrabold text-gray-900">2,405</span>
-              <span class="text-sm font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">+4.1%</span>
-            </div>
+          <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
+            <button onclick="openModal('send-modal')" class="flex flex-col items-center min-w-[56px] gap-1">
+              <div class="w-12 h-12 rounded-full border-2 border-dashed border-indigo-400 text-indigo-600 flex items-center justify-center text-sm">
+                <i class="fa-solid fa-plus"></i>
+              </div>
+              <span class="text-[11px] text-gray-500">Add</span>
+            </button>
+            <button onclick="openModal('send-modal')" class="flex flex-col items-center min-w-[56px] gap-1">
+              <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">Alex</div>
+              <span class="text-[11px] text-gray-600 font-medium">Alex</span>
+            </button>
+            <button onclick="openModal('send-modal')" class="flex flex-col items-center min-w-[56px] gap-1">
+              <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs">Sarah</div>
+              <span class="text-[11px] text-gray-600 font-medium">Sarah</span>
+            </button>
+            <button onclick="openModal('send-modal')" class="flex flex-col items-center min-w-[56px] gap-1">
+              <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">Mike</div>
+              <span class="text-[11px] text-gray-600 font-medium">Mike</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- RECENT TRANSACTIONS -->
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-sm font-bold text-gray-900">Recent Transactions</h3>
+            <button onclick="switchTab('activity')" class="text-xs font-semibold text-indigo-600">View History</button>
           </div>
 
-          <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-            <p class="text-sm font-medium text-gray-500">Pending Tasks</p>
-            <div class="flex items-baseline justify-between mt-2">
-              <span class="text-3xl font-extrabold text-gray-900">18</span>
-              <span class="text-sm font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">-2</span>
+          <div id="transaction-list" class="space-y-3">
+            <!-- Item 1 -->
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
+                  <i class="fa-brands fa-apple text-base"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">Apple Store</p>
+                  <p class="text-xs text-gray-400">Oct 2, 2026 • Electronics</p>
+                </div>
+              </div>
+              <span class="text-sm font-bold text-gray-900">-$120.00</span>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                  <i class="fa-solid fa-arrow-down text-sm"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">Salary Deposit</p>
+                  <p class="text-xs text-gray-400">Oct 1, 2026 • Transfer</p>
+                </div>
+              </div>
+              <span class="text-sm font-bold text-emerald-600">+$3,450.00</span>
             </div>
           </div>
         </div>
 
-        <!-- CONTENT SECTION: Table + Sidebar Panel -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      </section>
 
-          <!-- Main Table Section (2 columns wide on large screens) -->
-          <div class="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Projects</h2>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-sm text-gray-600">
-                <thead class="bg-gray-50 text-gray-700 uppercase text-xs font-semibold">
-                  <tr>
-                    <th class="px-4 py-3 rounded-l-lg">Project Name</th>
-                    <th class="px-4 py-3">Status</th>
-                    <th class="px-4 py-3">Date</th>
-                    <th class="px-4 py-3 rounded-r-lg text-right">Amount</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                  <tr>
-                    <td class="px-4 py-3 font-medium text-gray-900">App Redesign</td>
-                    <td class="px-4 py-3"><span class="px-2.5 py-1 text-xs font-medium bg-emerald-100 text-emerald-800 rounded-full">Completed</span></td>
-                    <td class="px-4 py-3">Oct 24, 2026</td>
-                    <td class="px-4 py-3 text-right font-medium">$12,000</td>
-                  </tr>
-                  <tr>
-                    <td class="px-4 py-3 font-medium text-gray-900">API Integration</td>
-                    <td class="px-4 py-3"><span class="px-2.5 py-1 text-xs font-medium bg-amber-100 text-amber-800 rounded-full">In Progress</span></td>
-                    <td class="px-4 py-3">Oct 22, 2026</td>
-                    <td class="px-4 py-3 text-right font-medium">$4,500</td>
-                  </tr>
-                  <tr>
-                    <td class="px-4 py-3 font-medium text-gray-900">Database Migration</td>
-                    <td class="px-4 py-3"><span class="px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">Pending</span></td>
-                    <td class="px-4 py-3">Oct 18, 2026</td>
-                    <td class="px-4 py-3 text-right font-medium">$8,200</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Activity Feed Section (1 column wide) -->
-          <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Activity Stream</h2>
-            <ul class="space-y-4">
-              <li class="flex gap-3 text-sm">
-                <div class="w-2 h-2 mt-1.5 rounded-full bg-indigo-600 flex-shrink-0"></div>
-                <div>
-                  <p class="text-gray-800 font-medium">Jane Doe deployed to Production</p>
-                  <p class="text-xs text-gray-400">10 minutes ago</p>
-                </div>
-              </li>
-              <li class="flex gap-3 text-sm">
-                <div class="w-2 h-2 mt-1.5 rounded-full bg-emerald-500 flex-shrink-0"></div>
-                <div>
-                  <p class="text-gray-800 font-medium">New project "API Integration" created</p>
-                  <p class="text-xs text-gray-400">2 hours ago</p>
-                </div>
-              </li>
-              <li class="flex gap-3 text-sm">
-                <div class="w-2 h-2 mt-1.5 rounded-full bg-gray-400 flex-shrink-0"></div>
-                <div>
-                  <p class="text-gray-800 font-medium">System backup completed</p>
-                  <p class="text-xs text-gray-400">1 day ago</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-
+      <!-- TAB 2: ACTIVITY SCREEN (Hidden by default) -->
+      <section id="tab-activity" class="p-5 space-y-4 hidden">
+        <h2 class="text-lg font-bold text-gray-900">Activity & Analytics</h2>
+        <div class="p-4 bg-gray-50 rounded-xl text-center text-sm text-gray-500">
+          Analytics dashboard view here.
         </div>
+      </section>
 
-      </main>
+      <!-- TAB 3: CARDS SCREEN (Hidden by default) -->
+      <section id="tab-cards" class="p-5 space-y-4 hidden">
+        <h2 class="text-lg font-bold text-gray-900">My Cards</h2>
+        <div class="p-6 bg-slate-900 text-white rounded-2xl shadow-md space-y-8">
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-bold">VISA</span>
+            <i class="fa-solid fa-wifi"></i>
+          </div>
+          <p class="text-lg font-mono tracking-widest">•••• •••• •••• 8829</p>
+          <div class="flex justify-between text-xs opacity-75">
+            <span>JANE DOE</span>
+            <span>12/28</span>
+          </div>
+        </div>
+      </section>
 
+    </div>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+    <nav class="absolute bottom-0 w-full bg-white border-t border-gray-200 px-6 py-3 flex justify-between items-center z-20">
+      <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center gap-1 text-indigo-600">
+        <i class="fa-solid fa-house text-lg"></i>
+        <span class="text-[10px] font-semibold">Home</span>
+      </button>
+
+      <button onclick="switchTab('activity')" id="nav-activity" class="flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600">
+        <i class="fa-solid fa-chart-line text-lg"></i>
+        <span class="text-[10px] font-semibold">Activity</span>
+      </button>
+
+      <button onclick="switchTab('cards')" id="nav-cards" class="flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600">
+        <i class="fa-solid fa-credit-card text-lg"></i>
+        <span class="text-[10px] font-semibold">Cards</span>
+      </button>
+    </nav>
+
+    <!-- SEND MONEY MODAL INTERFACE -->
+    <div id="send-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden flex items-end sm:items-center justify-center">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 space-y-5 animate-slide-up">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="text-base font-bold text-gray-900">Send Money</h3>
+          <button onclick="closeModal('send-modal')" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+        </div>
+        <form onsubmit="handleSendMoney(event)" class="space-y-4">
+          <div>
+            <label class="text-xs font-semibold text-gray-600">Recipient Account / Tag</label>
+            <input type="text" id="recipient-input" required placeholder="@username or account number" class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-gray-600">Amount ($)</label>
+            <input type="number" id="amount-input" required placeholder="0.00" class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+          </div>
+          <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3.5 rounded-xl shadow-lg hover:bg-indigo-700 transition-colors">
+            Confirm & Send
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- RECEIVE MONEY MODAL INTERFACE -->
+    <div id="receive-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden flex items-end sm:items-center justify-center">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 space-y-5 text-center">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="text-base font-bold text-gray-900">Receive Payment</h3>
+          <button onclick="closeModal('receive-modal')" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+        </div>
+        <div class="p-4 bg-gray-50 rounded-2xl inline-block border">
+          <i class="fa-solid fa-qrcode text-8xl text-gray-800"></i>
+        </div>
+        <p class="text-xs text-gray-500">Scan this code or share your handle below</p>
+        <div class="bg-indigo-50 text-indigo-700 p-3 rounded-xl font-mono text-sm font-bold">
+          @janedoe
+        </div>
+      </div>
     </div>
 
   </div>
 
+  <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+  <script>
+    // Tab switching logic
+    function switchTab(tabName) {
+      const tabs = ['home', 'activity', 'cards'];
+      tabs.forEach(tab => {
+        const content = document.getElementById(`tab-${tab}`);
+        const navBtn = document.getElementById(`nav-${tab}`);
+        
+        if (tab === tabName) {
+          content.classList.remove('hidden');
+          navBtn.classList.add('text-indigo-600');
+          navBtn.classList.remove('text-gray-400');
+        } else {
+          content.classList.add('hidden');
+          navBtn.classList.remove('text-indigo-600');
+          navBtn.classList.add('text-gray-400');
+        }
+      });
+    }
+
+    // Modal controls
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // Toggle balance visibility
+    let balanceVisible = true;
+    function toggleBalance() {
+      const balanceElem = document.getElementById('balance-amount');
+      const eyeIcon = document.getElementById('eye-icon');
+      if (balanceVisible) {
+        balanceElem.textContent = '••••••••';
+        eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        balanceElem.textContent = '14,250.80';
+        eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+      balanceVisible = !balanceVisible;
+    }
+
+    // Send money action
+    function handleSendMoney(e) {
+      e.preventDefault();
+      const recipient = document.getElementById('recipient-input').value;
+      const amount = document.getElementById('amount-input').value;
+
+      // Prepend to transaction list dynamically
+      const list = document.getElementById('transaction-list');
+      const newItem = document.createElement('div');
+      newItem.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors';
+      newItem.innerHTML = `
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+            <i class="fa-solid fa-paper-plane text-xs"></i>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-gray-900">${recipient}</p>
+            <p class="text-xs text-gray-400">Just now • Transfer</p>
+          </div>
+        </div>
+        <span class="text-sm font-bold text-gray-900">-$${parseFloat(amount).toFixed(2)}</span>
+      `;
+      list.prepend(newItem);
+
+      closeModal('send-modal');
+      e.target.reset();
+      alert(`Successfully sent $${amount} to ${recipient}!`);
+    }
+  </script>
 </body>
-</html>
+  </html>
+            
