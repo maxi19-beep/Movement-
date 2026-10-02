@@ -3,314 +3,348 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App Home Screen</title>
+  <title>MAXI - Mobile App</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Pulse and Spin Animation for MX Loader */
+    @keyframes mxPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.8; }
+    }
+    .animate-mx {
+      animation: mxPulse 1s infinite ease-in-out;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 font-sans antialiased text-gray-800 flex justify-center min-h-screen sm:py-6">
+<body class="bg-gray-900 font-sans antialiased text-gray-800 flex justify-center items-center min-h-screen sm:py-6">
 
-  <!-- Mobile App Frame Container -->
+  <!-- Mobile App Container -->
   <div class="w-full max-w-md bg-white sm:rounded-3xl shadow-2xl flex flex-col justify-between overflow-hidden relative h-screen sm:h-[840px]">
 
-    <!-- MAIN SCROLLABLE CONTENT -->
-    <div id="main-content" class="flex-1 overflow-y-auto pb-20">
+    <!-- ================= GLOBAL MX LOADING OVERLAY ================= -->
+    <div id="mx-loader" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex flex-col items-center justify-center gap-4 hidden">
+      <div class="w-20 h-20 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-black text-3xl tracking-widest shadow-2xl animate-mx border-2 border-indigo-400">
+        MX
+      </div>
+      <p class="text-indigo-200 text-xs font-semibold tracking-wider uppercase animate-pulse">Processing...</p>
+    </div>
 
-      <!-- APP HEADER -->
-      <header class="p-5 flex items-center justify-between bg-white sticky top-0 z-10 border-b border-gray-100">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-md">
-            JD
-          </div>
+    <!-- ================= 1. AUTH SCREEN: SIGN UP ================= -->
+    <section id="screen-signup" class="flex-1 p-6 overflow-y-auto flex flex-col justify-between">
+      <div>
+        <!-- App Logo Header -->
+        <div class="flex items-center gap-2 mt-4 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg">MX</div>
+          <span class="text-2xl font-black text-gray-900 tracking-tight">MAXI</span>
+        </div>
+
+        <h1 class="text-2xl font-extrabold text-gray-900">Create your account</h1>
+        <p class="text-xs text-gray-500 mt-1">Join MAXI to manage your finances seamlessly.</p>
+
+        <form onsubmit="handleSignup(event)" class="mt-6 space-y-4">
+          <!-- Full Name -->
           <div>
-            <p class="text-xs text-gray-500 font-medium">Welcome back 👋</p>
-            <h2 class="text-base font-bold text-gray-900">Jane Doe</h2>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Full Name</label>
+            <input type="text" id="signup-fullname" required placeholder="e.g. Olamide Adeleke" class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+            <p class="text-[11px] text-indigo-600 font-medium mt-1">⚠️ Name must match your bank account name.</p>
           </div>
+
+          <!-- Phone Number -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Phone Number</label>
+            <input type="tel" id="signup-phone" required placeholder="08012345678" class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+            <p id="phone-error" class="text-[11px] text-red-500 font-medium mt-1 hidden">❌ Please enter a valid 11-digit phone number.</p>
+          </div>
+
+          <!-- Select Local Bank -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Primary Bank</label>
+            <select id="signup-bank" required class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 text-gray-700">
+              <option value="" disabled selected>Select your bank</option>
+              <option value="Access Bank">Access Bank</option>
+              <option value="GTBank">Guaranty Trust Bank (GTB)</option>
+              <option value="First Bank">First Bank of Nigeria</option>
+              <option value="UBA">United Bank for Africa (UBA)</option>
+              <option value="Zenith Bank">Zenith Bank</option>
+              <option value="Kuda Bank">Kuda Microfinance Bank</option>
+              <option value="OPay">OPay</option>
+              <option value="Palmpay">PalmPay</option>
+            </select>
+          </div>
+
+          <!-- Password Field with Eye Toggle -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Password</label>
+            <div class="relative mt-1">
+              <input type="password" id="signup-password" required placeholder="At least 6 characters" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 pr-10">
+              <button type="button" onclick="togglePasswordVisibility('signup-password', 'signup-eye')" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+                <i id="signup-eye" class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <p id="password-error" class="text-[11px] text-red-500 font-medium mt-1 hidden">❌ Password must be at least 6 characters long.</p>
+          </div>
+
+          <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-indigo-700 transition-colors mt-2">
+            Create Account
+          </button>
+        </form>
+      </div>
+
+      <div class="text-center mt-6 pt-4 border-t border-gray-100">
+        <p class="text-xs text-gray-500">Already have a MAXI account? 
+          <button onclick="triggerLoader(() => showScreen('screen-login'))" class="text-indigo-600 font-bold hover:underline">Log In</button>
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= 2. AUTH SCREEN: LOGIN ================= -->
+    <section id="screen-login" class="flex-1 p-6 overflow-y-auto flex flex-col justify-between hidden">
+      <div>
+        <div class="flex items-center gap-2 mt-4 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg">MX</div>
+          <span class="text-2xl font-black text-gray-900 tracking-tight">MAXI</span>
         </div>
-        <button onclick="alert('No new notifications')" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors relative">
-          <i class="fa-solid fa-bell"></i>
-          <span class="w-2 h-2 bg-red-500 rounded-full absolute top-2.5 right-2.5"></span>
+
+        <h1 class="text-2xl font-extrabold text-gray-900">Welcome Back</h1>
+        <p class="text-xs text-gray-500 mt-1">Log in to manage your MAXI account.</p>
+
+        <form onsubmit="handleLogin(event)" class="mt-6 space-y-4">
+          <!-- Phone Number / Username -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Phone Number</label>
+            <input type="tel" id="login-phone" required placeholder="08012345678" class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+            <p id="login-phone-error" class="text-[11px] text-red-500 font-medium mt-1 hidden">❌ Account not found. Please check phone number.</p>
+          </div>
+
+          <!-- Password Field with Eye Toggle -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Password</label>
+            <div class="relative mt-1">
+              <input type="password" id="login-password" required placeholder="Enter password" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 pr-10">
+              <button type="button" onclick="togglePasswordVisibility('login-password', 'login-eye')" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+                <i id="login-eye" class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <p id="login-password-error" class="text-[11px] text-red-500 font-medium mt-1 hidden">❌ Incorrect password. Please try again.</p>
+          </div>
+
+          <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-indigo-700 transition-colors mt-2">
+            Log In
+          </button>
+        </form>
+      </div>
+
+      <div class="text-center mt-6 pt-4 border-t border-gray-100">
+        <p class="text-xs text-gray-500">Don't have an account? 
+          <button onclick="triggerLoader(() => showScreen('screen-signup'))" class="text-indigo-600 font-bold hover:underline">Sign Up</button>
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= 3. MAIN DASHBOARD SHELL (Hidden until Auth) ================= -->
+    <div id="screen-dashboard" class="flex-1 flex-col h-full overflow-hidden hidden">
+
+      <!-- SCROLLABLE BODY CONTAINER -->
+      <div id="main-content" class="flex-1 overflow-y-auto pb-20">
+
+        <!-- HEADER -->
+        <header class="p-5 flex items-center justify-between bg-white sticky top-0 z-10 border-b border-gray-100">
+          <div class="flex items-center gap-3">
+            <div id="user-avatar" class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-md">
+              --
+            </div>
+            <div>
+              <p class="text-xs text-gray-500 font-medium">Welcome 👋</p>
+              <h2 id="user-display-name" class="text-base font-bold text-gray-900">--</h2>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="triggerLoader(() => alert('No new notifications'))" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors relative">
+              <i class="fa-solid fa-bell text-sm"></i>
+            </button>
+            <button onclick="handleLogout()" title="Log Out" class="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center text-red-600 hover:bg-red-100 transition-colors">
+              <i class="fa-solid fa-right-from-bracket text-sm"></i>
+            </button>
+          </div>
+        </header>
+
+        <!-- TAB 1: HOME SCREEN -->
+        <section id="tab-home" class="p-5 space-y-6">
+
+          <!-- NAIRA ACCOUNT BALANCE CARD -->
+          <div class="bg-gradient-to-tr from-indigo-800 via-indigo-600 to-violet-600 text-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
+            <div class="flex justify-between items-center opacity-80 text-xs font-medium">
+              <span>MAXI Balance</span>
+              <button onclick="toggleBalance()"><i id="eye-icon" class="fa-solid fa-eye"></i></button>
+            </div>
+            <div class="mt-2 flex items-baseline gap-1">
+              <span class="text-2xl font-bold">₦</span>
+              <span id="balance-amount" class="text-3xl font-extrabold tracking-tight">0.00</span>
+            </div>
+            <div class="mt-6 flex justify-between items-center text-xs opacity-90 border-t border-white/20 pt-4">
+              <span id="user-bank-details">Bank: --</span>
+              <span class="bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 px-2.5 py-1 rounded-full text-[10px] font-semibold">Verified</span>
+            </div>
+          </div>
+
+          <!-- QUICK ACTION BUTTONS -->
+          <div class="grid grid-cols-4 gap-3 text-center">
+            <button onclick="triggerLoader(() => openModal('send-modal'))" class="flex flex-col items-center gap-2 group">
+              <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
+                <i class="fa-solid fa-paper-plane"></i>
+              </div>
+              <span class="text-xs font-medium text-gray-700">Send</span>
+            </button>
+
+            <button onclick="triggerLoader(() => openModal('receive-modal'))" class="flex flex-col items-center gap-2 group">
+              <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
+                <i class="fa-solid fa-qrcode"></i>
+              </div>
+              <span class="text-xs font-medium text-gray-700">Receive</span>
+            </button>
+
+            <button onclick="triggerLoader(() => alert('Top up via Local Bank Transfer selected'))" class="flex flex-col items-center gap-2 group">
+              <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
+                <i class="fa-solid fa-wallet"></i>
+              </div>
+              <span class="text-xs font-medium text-gray-700">Add Money</span>
+            </button>
+
+            <button onclick="triggerLoader(() => alert('Utility & Bill Payment selected'))" class="flex flex-col items-center gap-2 group">
+              <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
+                <i class="fa-solid fa-receipt"></i>
+              </div>
+              <span class="text-xs font-medium text-gray-700">Pay Bills</span>
+            </button>
+          </div>
+
+          <!-- TRANSACTIONS LIST (Empty state by default) -->
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="text-sm font-bold text-gray-900">Recent Transactions</h3>
+              <button onclick="triggerLoader(() => switchTab('activity'))" class="text-xs font-semibold text-indigo-600">View All</button>
+            </div>
+
+            <div id="transaction-list" class="space-y-3">
+              <!-- Empty state template -->
+              <div id="empty-transactions" class="p-8 text-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                <i class="fa-solid fa-receipt text-3xl text-gray-300 mb-2"></i>
+                <p class="text-xs font-semibold text-gray-500">No transactions yet</p>
+                <p class="text-[11px] text-gray-400">Your recent activities will show up here.</p>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- TAB 2: ACTIVITY SCREEN -->
+        <section id="tab-activity" class="p-5 space-y-4 hidden">
+          <h2 class="text-lg font-bold text-gray-900">Transaction History</h2>
+          <div class="p-8 text-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+            <p class="text-xs text-gray-500">No record found. Start transacting on MAXI!</p>
+          </div>
+        </section>
+
+        <!-- TAB 3: CARDS SCREEN -->
+        <section id="tab-cards" class="p-5 space-y-4 hidden">
+          <h2 class="text-lg font-bold text-gray-900">Virtual Naira Card</h2>
+          <div class="p-6 bg-slate-900 text-white rounded-2xl shadow-md space-y-8">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-extrabold tracking-widest text-indigo-400">MAXI CARD</span>
+              <i class="fa-solid fa-wifi"></i>
+            </div>
+            <p class="text-lg font-mono tracking-widest">•••• •••• •••• ••••</p>
+            <div class="flex justify-between text-xs opacity-75">
+              <span id="card-holder-name">YOUR NAME</span>
+              <span>12/28</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- BOTTOM NAVIGATION BAR -->
+      <nav class="absolute bottom-0 w-full bg-white border-t border-gray-200 px-6 py-3 flex justify-between items-center z-20">
+        <button onclick="triggerLoader(() => switchTab('home'))" id="nav-home" class="flex flex-col items-center gap-1 text-indigo-600">
+          <i class="fa-solid fa-house text-lg"></i>
+          <span class="text-[10px] font-semibold">Home</span>
         </button>
-      </header>
 
-      <!-- TAB 1: HOME SCREEN -->
-      <section id="tab-home" class="p-5 space-y-6">
+        <button onclick="triggerLoader(() => switchTab('activity'))" id="nav-activity" class="flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600">
+          <i class="fa-solid fa-clock-rotate-left text-lg"></i>
+          <span class="text-[10px] font-semibold">Activity</span>
+        </button>
 
-        <!-- ACCOUNT BALANCE CARD -->
-        <div class="bg-gradient-to-tr from-indigo-700 via-indigo-600 to-violet-600 text-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
-          <div class="flex justify-between items-center opacity-80 text-xs font-medium">
-            <span>Total Available Balance</span>
-            <button onclick="toggleBalance()" class="hover:opacity-100"><i id="eye-icon" class="fa-solid fa-eye"></i></button>
-          </div>
-          <div class="mt-2 flex items-baseline gap-1">
-            <span class="text-xl">$</span>
-            <span id="balance-amount" class="text-3xl font-extrabold tracking-tight">14,250.80</span>
-          </div>
-          <div class="mt-6 flex justify-between items-center text-xs opacity-90 border-t border-white/20 pt-4">
-            <span>Account: **** 8829</span>
-            <span class="bg-white/20 px-2.5 py-1 rounded-full text-[10px] font-semibold">Active</span>
-          </div>
-        </div>
-
-        <!-- QUICK ACTION BUTTONS -->
-        <div class="grid grid-cols-4 gap-3 text-center">
-          <button onclick="openModal('send-modal')" class="flex flex-col items-center gap-2 group">
-            <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
-              <i class="fa-solid fa-paper-plane"></i>
-            </div>
-            <span class="text-xs font-medium text-gray-700">Send</span>
-          </button>
-
-          <button onclick="openModal('receive-modal')" class="flex flex-col items-center gap-2 group">
-            <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
-              <i class="fa-solid fa-qrcode"></i>
-            </div>
-            <span class="text-xs font-medium text-gray-700">Receive</span>
-          </button>
-
-          <button onclick="alert('Top up module selected')" class="flex flex-col items-center gap-2 group">
-            <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
-              <i class="fa-solid fa-wallet"></i>
-            </div>
-            <span class="text-xs font-medium text-gray-700">Top Up</span>
-          </button>
-
-          <button onclick="alert('Bills & Utilities module selected')" class="flex flex-col items-center gap-2 group">
-            <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-lg group-active:scale-95 transition-transform shadow-sm">
-              <i class="fa-solid fa-receipt"></i>
-            </div>
-            <span class="text-xs font-medium text-gray-700">Bills</span>
-          </button>
-        </div>
-
-        <!-- QUICK TRANSFER AVATARS CAROUSEL -->
-        <div>
-          <div class="flex justify-between items-center mb-3">
-            <h3 class="text-sm font-bold text-gray-900">Quick Transfer</h3>
-            <a href="#" class="text-xs font-semibold text-indigo-600">See All</a>
-          </div>
-          <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
-            <button onclick="openModal('send-modal')" class="flex flex-col items-center min-w-[56px] gap-1">
-              <div class="w-12 h-12 rounded-full border-2 border-dashed border-indigo-400 text-indigo-600 flex items-center justify-center text-sm">
-                <i class="fa-solid fa-plus"></i>
-              </div>
-              <span class="text-[11px] text-gray-500">Add</span>
-            </button>
-            <button onclick="openModal('send-modal')" class="flex flex-col items-center min-w-[56px] gap-1">
-              <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">Alex</div>
-              <span class="text-[11px] text-gray-600 font-medium">Alex</span>
-            </button>
-            <button onclick="openModal('send-modal')" class="flex flex-col items-center min-w-[56px] gap-1">
-              <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs">Sarah</div>
-              <span class="text-[11px] text-gray-600 font-medium">Sarah</span>
-            </button>
-            <button onclick="openModal('send-modal')" class="flex flex-col items-center min-w-[56px] gap-1">
-              <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">Mike</div>
-              <span class="text-[11px] text-gray-600 font-medium">Mike</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- RECENT TRANSACTIONS -->
-        <div>
-          <div class="flex justify-between items-center mb-3">
-            <h3 class="text-sm font-bold text-gray-900">Recent Transactions</h3>
-            <button onclick="switchTab('activity')" class="text-xs font-semibold text-indigo-600">View History</button>
-          </div>
-
-          <div id="transaction-list" class="space-y-3">
-            <!-- Item 1 -->
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-                  <i class="fa-brands fa-apple text-base"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-semibold text-gray-900">Apple Store</p>
-                  <p class="text-xs text-gray-400">Oct 2, 2026 • Electronics</p>
-                </div>
-              </div>
-              <span class="text-sm font-bold text-gray-900">-$120.00</span>
-            </div>
-
-            <!-- Item 2 -->
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                  <i class="fa-solid fa-arrow-down text-sm"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-semibold text-gray-900">Salary Deposit</p>
-                  <p class="text-xs text-gray-400">Oct 1, 2026 • Transfer</p>
-                </div>
-              </div>
-              <span class="text-sm font-bold text-emerald-600">+$3,450.00</span>
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- TAB 2: ACTIVITY SCREEN (Hidden by default) -->
-      <section id="tab-activity" class="p-5 space-y-4 hidden">
-        <h2 class="text-lg font-bold text-gray-900">Activity & Analytics</h2>
-        <div class="p-4 bg-gray-50 rounded-xl text-center text-sm text-gray-500">
-          Analytics dashboard view here.
-        </div>
-      </section>
-
-      <!-- TAB 3: CARDS SCREEN (Hidden by default) -->
-      <section id="tab-cards" class="p-5 space-y-4 hidden">
-        <h2 class="text-lg font-bold text-gray-900">My Cards</h2>
-        <div class="p-6 bg-slate-900 text-white rounded-2xl shadow-md space-y-8">
-          <div class="flex justify-between items-center">
-            <span class="text-sm font-bold">VISA</span>
-            <i class="fa-solid fa-wifi"></i>
-          </div>
-          <p class="text-lg font-mono tracking-widest">•••• •••• •••• 8829</p>
-          <div class="flex justify-between text-xs opacity-75">
-            <span>JANE DOE</span>
-            <span>12/28</span>
-          </div>
-        </div>
-      </section>
+        <button onclick="triggerLoader(() => switchTab('cards'))" id="nav-cards" class="flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600">
+          <i class="fa-solid fa-credit-card text-lg"></i>
+          <span class="text-[10px] font-semibold">Cards</span>
+        </button>
+      </nav>
 
     </div>
 
-    <!-- BOTTOM NAVIGATION BAR -->
-    <nav class="absolute bottom-0 w-full bg-white border-t border-gray-200 px-6 py-3 flex justify-between items-center z-20">
-      <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center gap-1 text-indigo-600">
-        <i class="fa-solid fa-house text-lg"></i>
-        <span class="text-[10px] font-semibold">Home</span>
-      </button>
+    <!-- ================= MODALS ================= -->
 
-      <button onclick="switchTab('activity')" id="nav-activity" class="flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600">
-        <i class="fa-solid fa-chart-line text-lg"></i>
-        <span class="text-[10px] font-semibold">Activity</span>
-      </button>
-
-      <button onclick="switchTab('cards')" id="nav-cards" class="flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600">
-        <i class="fa-solid fa-credit-card text-lg"></i>
-        <span class="text-[10px] font-semibold">Cards</span>
-      </button>
-    </nav>
-
-    <!-- SEND MONEY MODAL INTERFACE -->
-    <div id="send-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden flex items-end sm:items-center justify-center">
-      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 space-y-5 animate-slide-up">
+    <!-- SEND MONEY MODAL (Naira & Nigerian Banks) -->
+    <div id="send-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden flex items-end sm:items-center justify-center">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 space-y-4">
         <div class="flex justify-between items-center border-b pb-3">
-          <h3 class="text-base font-bold text-gray-900">Send Money</h3>
+          <h3 class="text-base font-bold text-gray-900">Transfer Funds (Naira)</h3>
           <button onclick="closeModal('send-modal')" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
         </div>
+
         <form onsubmit="handleSendMoney(event)" class="space-y-4">
           <div>
-            <label class="text-xs font-semibold text-gray-600">Recipient Account / Tag</label>
-            <input type="text" id="recipient-input" required placeholder="@username or account number" class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Destination Bank</label>
+            <select required class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 text-gray-700">
+              <option value="Access Bank">Access Bank</option>
+              <option value="GTBank">GTBank</option>
+              <option value="First Bank">First Bank</option>
+              <option value="UBA">UBA</option>
+              <option value="Zenith Bank">Zenith Bank</option>
+              <option value="Kuda Bank">Kuda Bank</option>
+              <option value="OPay">OPay</option>
+              <option value="PalmPay">PalmPay</option>
+            </select>
           </div>
+
           <div>
-            <label class="text-xs font-semibold text-gray-600">Amount ($)</label>
-            <input type="number" id="amount-input" required placeholder="0.00" class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Account Number</label>
+            <input type="tel" id="send-account" required placeholder="10-digit NUBAN" class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
           </div>
-          <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3.5 rounded-xl shadow-lg hover:bg-indigo-700 transition-colors">
-            Confirm & Send
+
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Amount (₦)</label>
+            <input type="number" id="send-amount" required placeholder="0.00" class="w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600">
+          </div>
+
+          <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-indigo-700 transition-colors">
+            Send Money
           </button>
         </form>
       </div>
     </div>
 
-    <!-- RECEIVE MONEY MODAL INTERFACE -->
-    <div id="receive-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden flex items-end sm:items-center justify-center">
-      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 space-y-5 text-center">
+    <!-- RECEIVE MONEY MODAL -->
+    <div id="receive-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden flex items-end sm:items-center justify-center">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 space-y-4 text-center">
         <div class="flex justify-between items-center border-b pb-3">
-          <h3 class="text-base font-bold text-gray-900">Receive Payment</h3>
+          <h3 class="text-base font-bold text-gray-900">Receive Money</h3>
           <button onclick="closeModal('receive-modal')" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
         </div>
-        <div class="p-4 bg-gray-50 rounded-2xl inline-block border">
-          <i class="fa-solid fa-qrcode text-8xl text-gray-800"></i>
-        </div>
-        <p class="text-xs text-gray-500">Scan this code or share your handle below</p>
-        <div class="bg-indigo-50 text-indigo-700 p-3 rounded-xl font-mono text-sm font-bold">
-          @janedoe
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- INTERACTIVE JAVASCRIPT LOGIC -->
-  <script>
-    // Tab switching logic
-    function switchTab(tabName) {
-      const tabs = ['home', 'activity', 'cards'];
-      tabs.forEach(tab => {
-        const content = document.getElementById(`tab-${tab}`);
-        const navBtn = document.getElementById(`nav-${tab}`);
+        <p class="text-xs text-gray-500">Share your MAXI Account details below to receive Naira payments instantly.</p>
         
-        if (tab === tabName) {
-          content.classList.remove('hidden');
-          navBtn.classList.add('text-indigo-600');
-          navBtn.classList.remove('text-gray-400');
-        } else {
-          content.classList.add('hidden');
-          navBtn.classList.remove('text-indigo-600');
-          navBtn.classList.add('text-gray-400');
-        }
-      });
-    }
-
-    // Modal controls
-    function openModal(id) {
-      document.getElementById(id).classList.remove('hidden');
-    }
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
-
-    // Toggle balance visibility
-    let balanceVisible = true;
-    function toggleBalance() {
-      const balanceElem = document.getElementById('balance-amount');
-      const eyeIcon = document.getElementById('eye-icon');
-      if (balanceVisible) {
-        balanceElem.textContent = '••••••••';
-        eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
-      } else {
-        balanceElem.textContent = '14,250.80';
-        eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
-      }
-      balanceVisible = !balanceVisible;
-    }
-
-    // Send money action
-    function handleSendMoney(e) {
-      e.preventDefault();
-      const recipient = document.getElementById('recipient-input').value;
-      const amount = document.getElementById('amount-input').value;
-
-      // Prepend to transaction list dynamically
-      const list = document.getElementById('transaction-list');
-      const newItem = document.createElement('div');
-      newItem.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors';
-      newItem.innerHTML = `
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
-            <i class="fa-solid fa-paper-plane text-xs"></i>
+        <div class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl text-left space-y-2">
+          <div>
+            <p class="text-[10px] font-bold text-indigo-400 uppercase">Bank Name</p>
+            <p class="text-sm font-bold text-indigo-950">MAXI / MFB</p>
           </div>
           <div>
-            <p class="text-sm font-semibold text-gray-900">${recipient}</p>
-            <p class="text-xs text-gray-400">Just now • Transfer</p>
+            <p class="text-[10px] font-bold text-indigo-400 uppercase">Account Number</p>
+            <p id="user-nuban" class="text-lg font-mono font-extrabold text-indigo-700">--</p>
           </div>
-        </div>
-        <span class="text-sm font-bold text-gray-900">-$${parseFloat(amount).toFixed(2)}</span>
-      `;
-      list.prepend(newItem);
-
-      closeModal('send-modal');
-      e.target.reset();
-      alert(`Successfully sent $${amount} to ${recipient}!`);
-    }
-  </script>
-</body>
-  </html>
+          <div>
             
