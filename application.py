@@ -1,0 +1,6 @@
+print("let's create your social media account.")
+name=input("enter your name: ")
+phone=input("enter your phone number: ")
+password=input("create a password: ")
+print("account created!")
+print(f"hello, {name} ! ")
